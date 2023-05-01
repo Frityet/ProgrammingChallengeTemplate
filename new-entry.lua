@@ -128,6 +128,7 @@ repeat
                 break
             elseif languages[newl] then
                 language = newl
+                answer = "y"
                 break
             else print("\x1b[31mInvalid language \""..newl.."\"\x1b[0m") end
         until false

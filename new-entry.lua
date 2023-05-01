@@ -17,16 +17,32 @@
 -- You should have received a copy of the GNU General Public License
 -- along with Pro-g-rammingChallenges.  If not, see <http://www.gnu.org/licenses/>.
 
-local lfs = require("lfs")
 
+local lfs = require("lfs")
 local languages = require("languages")
 local challenges = require("challenges")
 
-math.randomseed(os.time())
+-- TODO
+-- local pprint = require("pprint")
+-- local db_path = lfs.currentdir().."/db.lua"
 
----@class Statistics
----@field points integer
----@field completed_projects Challenge[]
+-- ---@class Statistics
+-- ---@field points integer
+-- ---@field completed_projects Challenge[]
+-- local stat = {}
+-- if lfs.attributes(db_path) then
+--     stat = dofile(db_path)
+-- else
+--     local f, msg = io.open(db_path)
+--     if not f then
+--         print("\x1b[31mCannot create database file at \""..db_path.."\"! Reason: "..msg)
+--     else
+--         f:write("return ", pprint.pformat {})
+--         f:close()
+--     end
+-- end
+
+math.randomseed(os.time())
 
 
 ---@param prompt string
@@ -94,9 +110,16 @@ repeat
     if answer == "l" then
         repeat
             ::start::
-            local newl = prompt("New language/r (random):")
+            local newl = prompt("New language/random/list:")
+            if newl == "list" then
+                print("Languages:")
+                for _, lang in ipairs(langnames) do
+                    print("\t- \x1b[34m"..lang.."\x1b[0m")
+                end
 
-            if newl == "r" then
+                goto start
+            end
+            if newl == "random" then
                 language = langnames[math.random(1, #langnames)]
                 local ok = prompt("New language: \x1b[35m"..language.."\x1b[0m. \x1b[33mOK? [Y/n]\x1b[0m"):sub(1, 1):lower()
                 if ok == "n" then goto start end
